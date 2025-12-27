@@ -7,15 +7,18 @@ function Register(){
     
         const handleSubmit = async (e) => {
             e.preventDefault();
-            await fetch('http://localhost:5000/register', {
+            const response = await fetch('http://localhost:5000/register', {
                 method: 'POST',
                 headers: {'content-type': 'application/json'},
                 body: JSON.stringify({ username, password })
-            })
-        }
+            });
 
-
-
+            if(response.status === 201){
+                alert("Registration successful!");
+            } else {
+                alert("Registration failed.");
+            }
+            };
 
     return(
         <form onSubmit={handleSubmit} className="max-w-md shadow mx-auto my-6 bg-gray-200 p-4 rounded-lg">
