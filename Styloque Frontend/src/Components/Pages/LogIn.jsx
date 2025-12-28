@@ -1,18 +1,30 @@
 import React, { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 
 function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [redirect, setRedirect] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await fetch('http://localhost:5000/login', {
-            method: 'POST',
-            headers: {'content-type': 'application/json'},
-            body: JSON.stringify({ username, password })
+        const response =await fetch('http://localhost:5000/login', { // Backend login endpoint
+            method: 'POST',  // Use POST method for login
+            headers: {'content-type': 'application/json'}, // Set content type to JSON
+            body: JSON.stringify({ username, password }), // Send username and password in the request body
+            credentials: 'include' // Include cookies in the request
         })
-    }
+        if(response.status === 200){
+            alert("Login successful!");
+            setRedirect(true);
+        } else {
+            alert("Login failed or invalid credentials.");
+        }
+    };
 
+    if(redirect){
+        return <Navigate to={'/'} />
+    }
 
     return (
         <form onSubmit={handleSubmit} className="max-w-md shadow mx-auto my-6 bg-gray-200 p-4 rounded-lg">
