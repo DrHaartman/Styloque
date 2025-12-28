@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import { useContext } from "react";
+import { userContext } from "../userContext";
 
 function Header() {
 
-    const [username, setUsername] = useState(null);
+    const {setUserInfo, userInfo} = useContext(userContext);
 
     useEffect(() => {
         fetch('http://localhost:5000/profile', {
@@ -15,10 +17,20 @@ function Header() {
             return response.json();
             })
         .then(userInfo => {
-           setUsername(userInfo.username);
+           setUserInfo(userInfo);
         })
         }, []);
-        console.log("Current username:", username);
+        console.log("Current user info:", userInfo);
+
+    function logout() {
+        fetch('http://localhost:5000/logout', {
+            method: 'POST',
+            credentials: 'include'
+        });
+        setUserInfo(null);
+    }
+
+    const username = userInfo?.username;
 
     return (
         <header className="flex justify-between mx-2">
@@ -27,7 +39,7 @@ function Header() {
                 {username && (
                     <>
                         <Link to="/create">Create New Post</Link>
-                        <a>Logout</a>
+                        <a onClick={logout()}>Logout</a>
                     </>
                 )}
                 {!username && (

@@ -58,6 +58,11 @@ app.post('/login', async (req, res) => {
   }
 });
 
+// User logout
+app.post('/logout', (req, res) => {
+  res.cookie('token', '', { expires: new Date(0), httpOnly: true, sameSite: 'lax', secure : false }).json({ message: 'Logout successful' });
+});
+
 
 // User profile route (protected)
 app.get('/profile', (req, res) => {
