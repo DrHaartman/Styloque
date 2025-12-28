@@ -45,11 +45,11 @@ app.post('/login', async (req, res) => {
       return res.status(400).json({ error: 'Invalid credentials' });
     } else {
       // Generate a JWT token
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
+      const token = jwt.sign({ id: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '24h' }, (err, token) => {
         if (err) {
           return res.status(500).json({ error: 'Error generating token' });
         }
-        res.cookie('token', token,).json({ message: 'Login successful'});
+        res.cookie('token', token, { httpOnly: true, sameSite: 'lax', secure : false }).json({ message: 'Login successful'});
       });
     }
     
@@ -66,10 +66,10 @@ app.get('/profile', (req, res) => {
     return res.status(401).json({ error: 'No token provided' });
  }
   jwt.verify(token, process.env.JWT_SECRET, {}, (err, info) => {
-  if (err) {
-    return res.status(401).json({ error: 'Invalid token' });
- }
-  res.json({ info});
+    if (err) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+    res.json(info);
   });
 });
   

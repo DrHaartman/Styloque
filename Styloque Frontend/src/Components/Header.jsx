@@ -10,13 +10,13 @@ function Header() {
             method: 'GET',
             credentials: 'include' // Include cookies in the request
         })
-        .then(response => response.json()) // Parse JSON response
-        .then(data => {
-                setUsername(data.username);
-        }) // Handle user data
-        .catch(err => {
-            console.error('Error fetching profile:', err);
-        });
+        .then(response => {
+            if (!response.ok) return null;
+            return response.json();
+            })
+        .then(userInfo => {
+           setUsername(userInfo.username);
+        })
         }, []);
         console.log("Current username:", username);
 
@@ -24,12 +24,13 @@ function Header() {
         <header className="flex justify-between mx-2">
             <Link to="/" className="text-black text-lg font-bold">My Blog</Link>
             <nav className="flex justify between gap-4 text-grey-100 text-sm font-medium">
-                {username ? (
+                {username && (
                     <>
                         <Link to="/create">Create New Post</Link>
                         <a>Logout</a>
                     </>
-                ) : (
+                )}
+                {!username && (
                     <>
                         <Link to="/login">Login</Link>
                         <Link to="/register">Register</Link>
