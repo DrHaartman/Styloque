@@ -1,11 +1,10 @@
-import myDraftPic from "./assets/bird.jpg";
 import {format} from 'date-fns';
 
 function Post({ title, summary, content, coverImagePath, createdAt, author }) {
     return (
         <div className="grid grid-cols-2 gap-4 p-2.5 mx-2 my-4 rounded-lg">
             <div className='w-40%'>
-                <img className="w-full h-full rounded" src={ 'http://localhost:5000/uploads/' + coverImagePath} alt="" />
+                <img className="w-full h-full rounded" src={ 'http://localhost:5000/' + coverImagePath.replace(/\\/g, '/')} alt={title} />
             </div>
             <div className="p-2.5">
                 <h2 className='text-lg font-bold m-0 leading-tight'>{title}</h2>

@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser');
 const multer = require('multer');
 const uploadMiddleware = multer({ dest: 'uploads/' });
 const fs = require('fs');
+const path = require('path');
 require('dotenv').config();
 const app = express();
 const port = 5000;
@@ -23,7 +24,7 @@ app.use(cors({
   origin: 'http://localhost:5173'}));
 app.use(express.json());
 app.use(cookieParser());
-app.use('/uploads', express.static(__dirname + '/uploads'));
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 // Create a new user
 app.post('/register', async (req, res) => {
