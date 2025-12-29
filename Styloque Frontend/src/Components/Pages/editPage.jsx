@@ -62,7 +62,7 @@ function EditPage() {
     };
 
     if(redirect){
-        return <Navigate to={'/post' + id} />;
+        return <Navigate to={`/post/${id}`} />;
     }
 
     return (
