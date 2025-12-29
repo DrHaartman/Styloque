@@ -1,23 +1,24 @@
 import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useContext } from "react";
-import { userContext } from "../userContext";
+import { userContext } from "./Pages/userContext";
 
 function Header() {
 
     const {setUserInfo, userInfo} = useContext(userContext);
 
-    useEffect(() => {
+    useEffect( ()=> {
         fetch('http://localhost:5000/profile', {
             method: 'GET',
             credentials: 'include' // Include cookies in the request
         })
         .then(response => {
-            if (!response.ok) return null;
+            if (!response.ok) throw new Error('Not logged in');
             return response.json();
             })
-        .then(userInfo => {
-           setUserInfo(userInfo);
+        .then(data => {
+            console.log("Fetched user info:", data);
+           setUserInfo(data);
         })
         }, []);
         console.log("Current user info:", userInfo);
@@ -39,7 +40,7 @@ function Header() {
                 {username && (
                     <>
                         <Link to="/create">Create New Post</Link>
-                        <a onClick={logout()}>Logout</a>
+                        <a onClick={logout}>Logout</a>
                     </>
                 )}
                 {!username && (

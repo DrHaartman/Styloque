@@ -3,7 +3,7 @@ import Login from "./Components/Pages/LogIn";
 import Register from "./Components/Pages/Register";
 import Layout from "./Components/Layout";
 import { Routes, Route, } from "react-router-dom";
-import { UserContextProvider } from "./userContext";
+import { UserContextProvider } from "./Components/Pages/userContext";
 
 function App() {
 

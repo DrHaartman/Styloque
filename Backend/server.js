@@ -14,7 +14,9 @@ const salt = bcrypt.genSaltSync(10);
 
 connectDB();
 
-app.use(cors({credentials: true, origin: 'http://localhost:5173'}));
+app.use(cors({
+  credentials: true, 
+  origin: 'http://localhost:5173'}));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -45,11 +47,11 @@ app.post('/login', async (req, res) => {
       return res.status(400).json({ error: 'Invalid credentials' });
     } else {
       // Generate a JWT token
-      const token = jwt.sign({ id: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '24h' }, (err, token) => {
+      const token = jwt.sign({ id: user._id.toString(), username: user.username }, process.env.JWT_SECRET, { expiresIn: '24h' }, (err, token) => {
         if (err) {
           return res.status(500).json({ error: 'Error generating token' });
         }
-        res.cookie('token', token, { httpOnly: true, sameSite: 'lax', secure : false }).json({ message: 'Login successful'});
+        res.cookie('token', token, { httpOnly: true , secure: false , sameSite: 'lax' , path: '/' }).json({ id: user._id, username: user.username });
       });
     }
     
@@ -60,7 +62,7 @@ app.post('/login', async (req, res) => {
 
 // User logout
 app.post('/logout', (req, res) => {
-  res.cookie('token', '', { expires: new Date(0), httpOnly: true, sameSite: 'lax', secure : false }).json({ message: 'Logout successful' });
+  res.cookie('token', '', { expires: new Date(0), httpOnly: true , secure: false , sameSite: 'lax' , path: '/' }).json({ message: 'Logout successful' });
 });
 
 

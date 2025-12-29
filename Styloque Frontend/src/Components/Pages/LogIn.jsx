@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
+import { useContext } from "react";
+import { userContext } from "./userContext";
 
 function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [redirect, setRedirect] = useState(false);
+
+    const { setUserInfo } = useContext(userContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -16,7 +20,10 @@ function Login() {
         })
         if(response.status === 200){
             alert("Login successful!");
-            setRedirect(true);
+            response.json().then(data => {
+                setUserInfo(data);
+                setRedirect(true);
+            })
         } else {
             alert("Login failed or invalid credentials.");
         }
