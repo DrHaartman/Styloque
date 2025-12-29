@@ -4,6 +4,7 @@ import Register from "./Components/Pages/Register";
 import Layout from "./Components/Layout";
 import CreatePost from "./Components/Pages/createPost";
 import PostPage from "./Components/Pages/postPage";
+import EditPage from "./Components/Pages/editPage";
 import { Routes, Route, } from "react-router-dom";
 import { UserContextProvider } from "./Components/Pages/userContext";
 
@@ -19,6 +20,7 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/create" element={<CreatePost />} />
               <Route path="/post/:id" element={<PostPage />} />
+              <Route path="/edit/:id" element={<EditPage />} />
             </Route>
           </Routes>
         </UserContextProvider>

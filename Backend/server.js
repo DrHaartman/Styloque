@@ -100,7 +100,7 @@ jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
       return res.status(401).json({ error: 'Invalid token' });
     }
   const {title, summary, content} = req.body;
-  const postDoc = await new Post({
+  const postDoc = await Post.create({
     author: info.id,
     title,
     summary,
@@ -113,6 +113,33 @@ jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
 });
 
 
+// Edit a post
+app.put('/post/:id', uploadMiddleware.single('file'), async (req, res) => {
+  let newPath = null;
+  if(req.file){
+    const {originalname, path} = req.file;
+    const parts = originalname.split('.');
+    const ext = parts[parts.length - 1];
+    const newPath = path + '.' + ext;
+    fs.renameSync(path, newPath);
+  }
+const {token} = req.cookies;
+jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
+    if (err) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+  const {title, summary, content} = req.body;
+  const postDoc = await Post.findById(req.params.id);
+  if (newPath) {
+    postDoc.coverImagePath = newPath;
+  }
+  postDoc.title = title;
+  postDoc.summary = summary;
+  postDoc.content = content;
+  await postDoc.save();
+  res.json({postDoc});
+});
+});
 
 
 //get all posts
@@ -125,7 +152,7 @@ app.get('/post', async (req, res) => {
 //get single post
 app.get('/post/:id', async (req, res) => {
   const {id} = req.params;
-  const post = await Post.findById(id);
+  const post = await Post.findById(id).populate('author', ['username']);
   res.json(post);
 });
 
