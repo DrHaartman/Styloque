@@ -122,9 +122,15 @@ app.get('/post', async (req, res) => {
 });
 
 
+//get single post
+app.get('/post/:id', async (req, res) => {
+  const {id} = req.params;
+  const post = await Post.findById(id);
+  res.json(post);
+});
 
-  
 
+// Home route
 app.get('/', (req, res) => {
   res.send('Server is running!');
 });
