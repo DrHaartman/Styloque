@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import { Navigate } from "react-router-dom";
 
 
 function Register(){
     const [username, setUsername] = useState('');
-        const [password, setPassword] = useState('');
+    const [password, setPassword] = useState('');
+    const [redirect, setRedirect] = useState(false);
+
     
         const handleSubmit = async (e) => {
             e.preventDefault();
@@ -15,6 +18,14 @@ function Register(){
 
             if(response.status === 201){
                 alert("Registration successful!");
+                setUsername('');
+                setPassword('');
+                setRedirect(true);
+
+            if(redirect){
+                return <Navigate to={'/login'} />
+            }
+
             } else {
                 alert("Registration failed.");
             }

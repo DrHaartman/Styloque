@@ -1,10 +1,14 @@
 const express = require('express');
 const connectDB = require('./configuration/connectdb');
 const User = require('./models/userSchema');
+const Post = require('./models/postSchema');
 const bcrypt = require('bcryptjs');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
+const multer = require('multer');
+const uploadMiddleware = multer({ dest: 'uploads/' });
+const fs = require('fs');
 require('dotenv').config();
 const app = express();
 const port = 5000;
@@ -19,6 +23,7 @@ app.use(cors({
   origin: 'http://localhost:5173'}));
 app.use(express.json());
 app.use(cookieParser());
+app.use('/uploads', express.static(__dirname + '/uploads'));
 
 // Create a new user
 app.post('/register', async (req, res) => {
@@ -79,6 +84,44 @@ app.get('/profile', (req, res) => {
     res.json(info);
   });
 });
+
+// Create a new post
+app.post('/post', uploadMiddleware.single('files'), async (req, res) => {
+  const {originalname, path} = req.file;
+  const parts = originalname.split('.');
+  const ext = parts[parts.length - 1];
+  const newPath = path + '.' + ext;
+  fs.renameSync(path, newPath);
+
+const token = req.cookies.token;
+jwt.verify(token, process.env.JWT_SECRET, {}, async (err, info) => {
+    if (err) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+  const {title, summary, content} = req.body;
+  const postDoc = await new Post({
+    author: info.id,
+    title,
+    summary,
+    content,
+    coverImagePath: newPath
+  });
+  postDoc.save();
+  res.json({postDoc});
+});
+});
+
+
+
+
+//get all posts
+app.get('/post', async (req, res) => {
+  const posts = await Post.find().populate('author', 'username').sort({createdAt: -1}).limit(20);
+  res.json(posts);
+});
+
+
+
   
 
 app.get('/', (req, res) => {
