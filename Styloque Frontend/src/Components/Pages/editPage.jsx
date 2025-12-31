@@ -13,7 +13,7 @@ function EditPage() {
     const [redirect, setRedirect] = useState(false);
 
     function goBack(){
-        setRedirect(true);
+        navigate(-1);
     }
 
 
@@ -75,19 +75,25 @@ function EditPage() {
                 <input type="text" 
                         placeholder="Title" 
                         value={title} 
-                        onChange={e => setTitle(e.target.value)} />
+                        onChange={e => setTitle(e.target.value)} 
+                        className="w-full border border-gray-300 rounded-md my-2 p-2"/>
                 <input type="text"  
                         placeholder="Enter post summary" 
                         value={summary} 
-                        onChange={e => setSummary(e.target.value)} />
+                        onChange={e => setSummary(e.target.value)} 
+                        className="w-full border border-gray-300 rounded-md my-2 p-2"/>
                 <input type="file" 
-                        onChange={e => setFiles(e.target.files)} />
+                        onChange={e => setFiles(e.target.files)}
+                        className="w-full border border-gray-300 rounded-md my-2 p-2 cursor-pointer" />
                 <ReactQuill value={content} 
                         onChange={newContent => setContent(newContent)} 
                         modules={modules} 
-                        formats={formats}/>
-                <button>Update post</button>
-                <button className="cursor-pointer hover:bg-gray-300 w-full bg-gray-200 text-black p-2 rounded py-2" onClick={goBack}>Back</button>
+                        formats={formats}
+                        className="w-full  rounded-md my-2 p-2"/>
+                <div className="mt-4 flex justify-between gap-2 text-center w-full">
+                        <button className="inline-block cursor-pointer hover:bg-green-600 w-full bg-green-300 text-white p-2 rounded">Update post</button>
+                        <button className="inline-block cursor-pointer hover:bg-gray-300 w-full bg-gray-200 text-black p-2 rounded py-2" onClick={goBack}>Back</button>
+                </div>
             </form>
         </>
     );

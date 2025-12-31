@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 function Post({ _id, title, summary, content, coverImagePath, createdAt, author }) {
     return (
         <div className="grid grid-cols-2 gap-4 p-2.5 mx-2 my-4 rounded-lg">
-            <div className='w-40%'>
+            <div className='w-40% h-40% overflow-hidden'>
                 <Link to={ `/post/${_id}`}>
                     <img className="w-full h-full rounded" src={ 'http://localhost:5000/' + coverImagePath.replace(/\\/g, '/')} alt={title} />
                 </Link>

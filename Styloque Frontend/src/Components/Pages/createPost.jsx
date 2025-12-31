@@ -87,8 +87,10 @@ function CreatePost() {
                         modules={modules} 
                         formats={formats}
                         className="w-full  rounded-md my-2 p-2"/>
-                <button className="cursor-pointer hover:bg-green-600 w-full bg-green-300 text-white p-2 rounded">Create post</button>
-                <button className="cursor-pointer hover:bg-gray-300 w-full bg-gray-200 text-black p-2 rounded py-2" onClick={goBack}>Back</button>
+                <div className="mt-4 flex justify-between gap-2">
+                        <button className="cursor-pointer hover:bg-green-600 w-full bg-green-300 text-white p-2 rounded">Create post</button>
+                        <button className="cursor-pointer hover:bg-gray-300 w-full bg-gray-200 text-black p-2 rounded py-2" onClick={goBack}>Back</button>
+               </div>
             </form>
         </>
     );

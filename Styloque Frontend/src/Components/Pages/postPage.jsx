@@ -11,7 +11,7 @@ function PostPage({}) {
     const {userInfo} = useContext(userContext);
 
     function goBack(){
-        Navigate(-1);
+        Navigate('/');
     }
 
     const { id } = useParams();
@@ -39,17 +39,19 @@ function PostPage({}) {
                 <time> {format(new Date(postInfo.createdAt), "MMM d, yyyy  HH:mm")}</time>
             </div>
             {userInfo && userInfo.id === postInfo.author._id && (
-                <div className="text-white bg-gray-900 px-4 inline-text-center w-full flex justify-center py-2 rounded hover:bg-gray-700">
-                    <Link to={`/edit/${postInfo._id}`}>Edit Post</Link>
+                <div className="text-center w-full">
+                    <Link to={`/edit/${postInfo._id}`} className="hover:bg-blue-400 inline-block bg-blue-300 text-white px-6 py-2 rounded">Edit Post</Link>
                 </div>
             )}
             <div className="max-h-90 cover-image overflow-hidden my-4 flex justify-center">
                 <img src={`http://localhost:5000/${postInfo.coverImagePath}`} alt={postInfo.title} />
             </div>
-            <div className=" mx-2 my-4 leading-relaxed text-lg break-words">
+            <div className=" mx-2 my-4 text-centre leading-relaxed text-lg break-words">
                 <div dangerouslySetInnerHTML={{__html: postInfo.content}} />
             </div>
-            <button className="cursor-pointer hover:bg-gray-300 w-full bg-gray-200 text-black p-2 rounded py-2" onClick={goBack}>Back</button>
+            <div className="text-center w-full" >
+                <button className="inline-block hover:bg-gray-700 bg-gray-600 text-white px-6 py-2 rounded" onClick={goBack}>Back</button>
+            </div>
         </div>
     );
 }   

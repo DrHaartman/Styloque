@@ -34,8 +34,8 @@ function Header() {
     const username = userInfo?.username;
 
     return (
-        <header className="flex justify-between w-full bg-slate-400 py-4 border-gray-300">
-            <Link to="/" className="text-black text-lg font-bold">My Blog</Link>
+        <header className="flex justify-between w-full bg-slate-600 px-4 py-6 border-gray-300">
+            <Link to="/" className="text-black text-3xl align-middle font-bold">My Blog</Link>
             <nav className="flex justify between gap-4 text-grey-100 text-sm font-medium">
                 {username && (
                     <>
