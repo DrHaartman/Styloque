@@ -2,7 +2,6 @@ import ReactQuill from "react-quill-new";
 import 'react-quill-new/dist/quill.snow.css';
 import {useState} from 'react';
 import { Navigate } from "react-router-dom";
-import { set } from "mongoose";
 
 
 function CreatePost() {
@@ -11,6 +10,10 @@ function CreatePost() {
     const [content, setContent] = useState('');
     const [files, setFiles] = useState('');
     const [redirect, setRedirect] = useState(false);
+
+    function goBack(){
+        setRedirect(true);
+    }
 
 
     const modules ={
@@ -41,7 +44,7 @@ function CreatePost() {
 
         e.preventDefault();
         console.log(files);
-        const response = await fetch('http://localhost:5000/post', {
+        const response = await fetch('http://localhost:5000/api/posts/post', {
             method: 'POST',
             body: formData,
             credentials: 'include'
@@ -69,18 +72,23 @@ function CreatePost() {
                 <input type="text" 
                         placeholder="Title" 
                         value={title} 
-                        onChange={e => setTitle(e.target.value)} />
+                        onChange={e => setTitle(e.target.value)} 
+                        className="w-full border border-gray-300 rounded-md my-2 p-2"/>
                 <input type="text"  
                         placeholder="Enter post summary" 
                         value={summary} 
-                        onChange={e => setSummary(e.target.value)} />
+                        onChange={e => setSummary(e.target.value)} 
+                        className="w-full border border-gray-300 rounded-md my-2 p-2"/>
                 <input type="file" 
-                        onChange={e => setFiles(e.target.files)} />
+                        onChange={e => setFiles(e.target.files)} 
+                        className="w-full border border-gray-300 rounded-md my-2 p-2 cursor-pointer"/>
                 <ReactQuill value={content} 
                         onChange={newContent => setContent(newContent)} 
                         modules={modules} 
-                        formats={formats}/>
-                <button>Create post</button>
+                        formats={formats}
+                        className="w-full  rounded-md my-2 p-2"/>
+                <button className="cursor-pointer hover:bg-green-600 w-full bg-green-300 text-white p-2 rounded">Create post</button>
+                <button className="cursor-pointer hover:bg-gray-300 w-full bg-gray-200 text-black p-2 rounded py-2" onClick={goBack}>Back</button>
             </form>
         </>
     );

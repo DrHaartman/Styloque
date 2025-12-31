@@ -7,7 +7,7 @@ function HomePage() {
     useEffect(() => {
     const fetchPosts = async () => {
         try {
-            const response = await fetch('http://localhost:5000/post');
+            const response = await fetch('http://localhost:5000/api/posts/post'); 
 
             // Check if the network request was successful
             if (response.ok) {

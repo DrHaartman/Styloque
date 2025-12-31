@@ -3,11 +3,13 @@ import { Outlet } from "react-router-dom";
 
 function Layout() {
     return (
-          <main className="p-2.5 max-w-x1 mx-4 bg-grey-100 rounded-lg ">
-            <Header />
+    <div className="min-h-screen bg-blue-100">
+        <Header /> 
+
+        <main className="p-4 max-w-5xl mx-auto">
             <Outlet />
         </main>
-    );
+    </div>
+);
 }
-
 export default Layout;

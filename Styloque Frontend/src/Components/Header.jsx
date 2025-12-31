@@ -8,7 +8,7 @@ function Header() {
     const {setUserInfo, userInfo} = useContext(userContext);
 
     useEffect( ()=> {
-        fetch('http://localhost:5000/profile', {
+        fetch('http://localhost:5000/api/users/profile', {
             method: 'GET',
             credentials: 'include' // Include cookies in the request
         })
@@ -24,7 +24,7 @@ function Header() {
         console.log("Current user info:", userInfo);
 
     function logout() {
-        fetch('http://localhost:5000/logout', {
+        fetch('http://localhost:5000/api/users/logout', {
             method: 'POST',
             credentials: 'include'
         });
@@ -34,19 +34,19 @@ function Header() {
     const username = userInfo?.username;
 
     return (
-        <header className="flex justify-between mx-2">
+        <header className="flex justify-between w-full bg-slate-400 py-4 border-gray-300">
             <Link to="/" className="text-black text-lg font-bold">My Blog</Link>
             <nav className="flex justify between gap-4 text-grey-100 text-sm font-medium">
                 {username && (
                     <>
-                        <Link to="/create">Create New Post</Link>
-                        <a onClick={logout}>Logout</a>
+                        <button className="border border-black bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700" ><Link to="/create" >Create New Post</Link></button>
+                        <button className="border border-red bg-red-600 text-white px-4 py-2 rounded-md cursor-pointer hover:bg-red-700" ><a onClick={logout}>Logout</a></button>
                     </>
                 )}
                 {!username && (
                     <>
-                        <Link to="/login">Login</Link>
-                        <Link to="/register">Register</Link>
+                        <button className="border border-black px-4 py-2 rounded-md bg-gray-900 text-white hover:bg-gray-800" ><Link to="/login">Login</Link></button>
+                        <button className="border border-black px-4 py-2 rounded-md bg-blue-400 text-white hover:bg-blue-500" ><Link to="/register">Register</Link></button>
                     </>
                 )}
             </nav>

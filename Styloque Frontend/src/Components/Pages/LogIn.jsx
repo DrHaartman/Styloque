@@ -12,7 +12,21 @@ function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response =await fetch('http://localhost:5000/login', { // Backend login endpoint
+
+        if(!username || !password){
+            alert("Please fill in all fields.");
+            return;
+        }
+        if(username.length < 6) {
+            alert("Username must be at least 6 characters long.");
+            return;
+        }
+        if (password.length < 8) {
+            alert("Password must be at least 8 characters long.");
+            return;
+        }
+
+        const response =await fetch('http://localhost:5000/api/users/login', { // Backend login endpoint
             method: 'POST',  // Use POST method for login
             headers: {'content-type': 'application/json'}, // Set content type to JSON
             body: JSON.stringify({ username, password }), // Send username and password in the request body
@@ -34,10 +48,10 @@ function Login() {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="max-w-md shadow mx-auto my-6 bg-gray-200 p-4 rounded-lg">
+        <form onSubmit={handleSubmit} className="max-w-md shadow mx-auto my-6 bg-slate-400 p-4 rounded-lg">
             <h1 className="text-center text-xl font-bold mb-4">Log In</h1>
             <input  type="text" 
-                    placeholder="Enter Username" 
+                    placeholder="Enter Your Full Names" 
                     className="w-full p-2 mb-2 border border-gray-300 rounded" 
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}/>

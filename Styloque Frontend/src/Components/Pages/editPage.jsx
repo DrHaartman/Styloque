@@ -12,6 +12,10 @@ function EditPage() {
     const [files, setFiles] = useState('');
     const [redirect, setRedirect] = useState(false);
 
+    function goBack(){
+        setRedirect(true);
+    }
+
 
     const modules ={
         toolbar: [
@@ -30,7 +34,7 @@ function EditPage() {
         'link', 'image'
     ];
     useEffect(() => {
-        fetch(`http://localhost:5000/post/${id}`)
+        fetch(`http://localhost:5000/api/posts/post/${id}`)
         .then(response => response.json())
         .then(postInfo => {
             setTitle(postInfo.title);
@@ -50,7 +54,7 @@ function EditPage() {
             formData.append('file', files[0]);
         }
 
-        const response = await fetch(`http://localhost:5000/post/${id}`, {
+        const response = await fetch(`http://localhost:5000/api/posts/post/${id}`, {
             method: 'PUT',
             body: formData,
             credentials: 'include'
@@ -83,6 +87,7 @@ function EditPage() {
                         modules={modules} 
                         formats={formats}/>
                 <button>Update post</button>
+                <button className="cursor-pointer hover:bg-gray-300 w-full bg-gray-200 text-black p-2 rounded py-2" onClick={goBack}>Back</button>
             </form>
         </>
     );
